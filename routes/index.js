@@ -43,6 +43,16 @@ router.post('/login', async function (req, res, next) {
 
         /* 9. Compare passwordHash y userData.password que sean iguales. */
         if (passwordHash === userData.password) {
+                /* 1. Configuración de la expiración de la cookie */
+            const options = {
+             expires: new Date(
+             Date.now() + (60 * 1000)
+             )
+            }
+
+          res.cookie("username", username, options)    
+          req.session.loggedin = true;
+          req.session.username = username;
           /* 10. En caso de éxito, redirija a '/users' */
           res.redirect('/users');
         } else {
@@ -61,6 +71,13 @@ router.post('/login', async function (req, res, next) {
     res.redirect('/');
   }
 
+});
+
+ /* GET logout. */
+ /* 2. Método para terminar la sesión */
+ router.get('/logout', function (req, res, next) {
+  req.session.destroy();
+  res.render('index');
 });
 
 module.exports = router;
