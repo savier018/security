@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var tokenRouter = require('./routes/token');
 /* 1. Módulo express-session */
 const session = require('express-session');
 
@@ -34,10 +35,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
  /* 2. Agregue el middleware al router */
- app.use('/users', authenticateSession, authorizationSession, usersRouter);
+app.use('/users', authenticateSession, authorizationSession, usersRouter);
 app.use('/', indexRouter);
-
-
+app.use('/token',tokenRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
