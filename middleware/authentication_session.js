@@ -1,6 +1,6 @@
  /* Autenticación */
 
- var authenticateSession = (req, res, next) => {
+var authenticateSession = (req, res, next) => {
     if(req.session.loggedin) {
         return next()
     } else{
