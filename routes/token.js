@@ -6,12 +6,17 @@ const TOKEN_SECRET = process.env.TOKEN_SECRET
 
 router.get('/', async function(req, res, next) {
   try {
+    const user = {
+      id: req.body.id,          
+      username: req.body.username 
+    }
+
     const payload = {
-      exp: Math.floor(Date.now() / 1000) + (60 * 60), 
-      data: 'foobar'
+      id: user.id,
+      username: user.username,
     };
 
-    const token = jwt.sign(payload, TOKEN_SECRET);
+    const token = jwt.sign(payload, TOKEN_SECRET, { expiresIn: '1h' });
 
     res.render('token', { title: 'Express', Token: token });
 
